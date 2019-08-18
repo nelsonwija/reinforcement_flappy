@@ -46,20 +46,22 @@ class Bird:
     def move(self):
         self.tick_count += 1
 
-        d = self.vel * self.tick_count + 1.5 * self.tick_count ** 2
+        # gravity
+        displacement = self.vel * self.tick_count + 1.5 * (3) * self.tick_count ** 2
 
         # terminal velocity
-        if d >= 16:
-            d = 16
-        if d < 0:
-            d -= 2
+        if displacement >= 16:
+            displacement = 16
+            # displacement = (displacement / abs(displacement)) * 16
+        if displacement < 0:
+            displacement -= 2
 
-        self.y = self.y + d
+        self.y = self.y + displacement
 
-        if d < 0 or self.y or self.height + 50:
+        if displacement < 0 or self.y < self.height + 50:  # up tilt
             if self.tilt < self.MAX_ROTATION:
                 self.tilt = self.MAX_ROTATION
-        else:
+        else:  # down tilt
             if self.tilt > -90:
                 self.tilt -= self.ROT_VEL
 
@@ -92,6 +94,77 @@ class Bird:
         return pygame.mask.from_surface(self.img)
 
 
+class Pipe:
+    GAP = 200
+    VEL = 5
+
+    def __init__(self, x):
+        self.x = x
+        self.height = 0
+
+        self.top = 0
+        self.bottom = 0
+        # I'm going to need two pipes, one on the bottom, one on top
+        self.PIPE_TOP = pygame.transform.flip(PIPE_IMG, False, True)
+        self.PIPE_BOTTOM = PIPE_IMG
+
+        self.passed = False
+        self.set_height()
+
+    def set_height(self):
+        self.height = random.randrange(50, 450)
+        self.top = self.height = self.PIPE_TOP.get_height()
+        self.bottom = self.height + self.GAP
+
+    def move(self):
+        self.x -= self.VEL
+
+    def draw(self, win):
+        win.blit(self.PIPE_TOP, (self.x, self.top))
+        win.blit(self.PIPE_BOTTOM, (self.x, self.bottom))
+
+    def collide(self, bird):
+        bird_mask = bird.get_mask()
+        top_mask = pygame.mask.from_surface(self.PIPE_TOP)
+        bottom_mask = pygame.mask.from_surface(self.PIPE_BOTTOM)
+
+        top_offset = (self.x - bird.x, self.top - round(bird.y))
+        bottom_offset = (self.x - bird.x, self.bottom - round(bird.y))
+
+        b_point = bird_mask.overlap(bottom_mask, bottom_offset) # if no collission, b_point will be None
+        t_point = bird_mask.overlap(top_mask, top_offset) # if no collission, b_point will be None
+
+        if t_point or b_point:
+            return True
+
+        return False
+
+class Base:
+    VEL = 5
+    WIDTH = BASE_IMG.get_width()
+    IMG = BASE_IMG
+
+    def __init__(self, y):
+        self.y = y
+        self.x1 = 0
+        self.x2 = self.WIDTH
+
+
+    def move(self):
+        self.x1 -= self.VEL
+        self.x2 -= self.VEL
+
+        if self.x1 + self.WIDTH < 0:
+            self.x1 = self.x2 + self.WIDTH
+
+        if self.x2 + self.WIDTH < 0:
+            self.x2 = self.x1 + self.WIDTH
+
+    def draw(self, win):
+        win.blit(self.IMG, (self.x1, self.y))
+        win.blit(self.IMG, (self.x2, self.y))
+
+
 def draw_window(win, bird):
     win.blit(BG_IMG, (0, 0))
     bird.draw(win)
@@ -109,7 +182,7 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
-        # bird.move()
+        bird.move()
         draw_window(win, bird)
     pygame.quit()
     quit()
