@@ -1,6 +1,6 @@
 import pygame
-import neat
-import time
+# import neat
+# import time
 import os
 import random
 pygame.font.init()
@@ -10,14 +10,20 @@ WIN_WIDTH = 500
 WIN_HEIGHT = 800
 
 BIRD_IMGS = [
-    pygame.transform.scale2x(pygame.image.load(os.path.join('imgs', 'bird1.png'))),
-    pygame.transform.scale2x(pygame.image.load(os.path.join('imgs', 'bird2.png'))),
-    pygame.transform.scale2x(pygame.image.load(os.path.join('imgs', 'bird3.png'))),
+    pygame.transform.scale2x(
+        pygame.image.load(os.path.join('imgs', 'bird1.png'))),
+    pygame.transform.scale2x(
+        pygame.image.load(os.path.join('imgs', 'bird2.png'))),
+    pygame.transform.scale2x(
+        pygame.image.load(os.path.join('imgs', 'bird3.png'))),
 ]
 
-PIPE_IMG = pygame.transform.scale2x(pygame.image.load(os.path.join('imgs', 'pipe.png')))
-BASE_IMG = pygame.transform.scale2x(pygame.image.load(os.path.join('imgs', 'base.png')))
-BG_IMG = pygame.transform.scale2x(pygame.image.load(os.path.join('imgs', 'bg.png')))
+PIPE_IMG = pygame.transform.scale2x(
+    pygame.image.load(os.path.join('imgs', 'pipe.png')))
+BASE_IMG = pygame.transform.scale2x(
+    pygame.image.load(os.path.join('imgs', 'base.png')))
+BG_IMG = pygame.transform.scale2x(
+    pygame.image.load(os.path.join('imgs', 'bg.png')))
 
 STAT_FONT = pygame.font.SysFont("comicsans", 50)
 
@@ -50,7 +56,8 @@ class Bird:
         self.tick_count += 1
 
         # gravity
-        displacement = self.vel * self.tick_count + 1.5 * (3) * self.tick_count ** 2
+        displacement = (self.vel * self.tick_count + 1.5
+                        * 3 * self.tick_count ** 2)
 
         # terminal velocity
         if displacement >= 16:
@@ -136,16 +143,19 @@ class Pipe:
         top_offset = (self.x - bird.x, self.top - round(bird.y))
         bottom_offset = (self.x - bird.x, self.bottom - round(bird.y))
 
-        b_point = bird_mask.overlap(bottom_mask, bottom_offset)  # if no collission, b_point will be None
-        t_point = bird_mask.overlap(top_mask, top_offset)  # if no collission, b_point will be None
+        # if no collission, b_point will be None
+        b_point = bird_mask.overlap(bottom_mask, bottom_offset)
+        t_point = bird_mask.overlap(top_mask, top_offset)
 
         if t_point or b_point:
             return True
 
         return False
 
+
 class Base:
     """The ground / base of the game"""
+
     VEL = 5
     WIDTH = BASE_IMG.get_width()
     IMG = BASE_IMG
