@@ -5,7 +5,7 @@ import os
 import random
 pygame.font.init()
 
-
+# set game constants
 WIN_WIDTH = 500
 WIN_HEIGHT = 800
 
@@ -23,6 +23,8 @@ STAT_FONT = pygame.font.SysFont("comicsans", 50)
 
 
 class Bird:
+    """ The flappy bird. """
+
     IMGS = BIRD_IMGS
     MAX_ROTATION = 25
     ROT_VEL = 20
@@ -96,6 +98,8 @@ class Bird:
 
 
 class Pipe:
+    """The top and bottom pipes"""
+
     GAP = 200
     VEL = 5
 
@@ -141,6 +145,7 @@ class Pipe:
         return False
 
 class Base:
+    """The ground / base of the game"""
     VEL = 5
     WIDTH = BASE_IMG.get_width()
     IMG = BASE_IMG
