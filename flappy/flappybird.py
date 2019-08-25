@@ -30,7 +30,7 @@ STAT_FONT = pygame.font.SysFont("comicsans", 50)
 
 
 class Bird:
-    """ The flappy bird. """
+    """The Flappy Bird"""
     IMGS = BIRD_IMGS
     MAX_ROTATION = 25
     ROT_VEL = 20
@@ -103,7 +103,7 @@ class Bird:
 
 
 class Pipe:
-    """The top and bottom pipes"""
+    """In game pipe obstacles"""
     GAP = 200
     VEL = 5
 
@@ -151,8 +151,7 @@ class Pipe:
 
 
 class Base:
-    """The ground / base of the game"""
-
+    """Represents the game floor"""
     VEL = 5
     WIDTH = BASE_IMG.get_width()
     IMG = BASE_IMG
@@ -161,7 +160,6 @@ class Base:
         self.y = y
         self.x1 = 0
         self.x2 = self.WIDTH
-
 
     def move(self):
         self.x1 -= self.VEL
@@ -179,6 +177,15 @@ class Base:
 
 
 def draw_window(win, birds, pipes, base, score, gen):
+    """Draws the game window.
+
+    :param win: The game window
+    :param birds: List of bird objects
+    :param pipes: List of pipe objects
+    :param base: The base object representing the floor
+    :param score: The game score
+    :param gen: The current NEAT generation number
+    """
     win.blit(BG_IMG, (0, 0))
 
     for pipe in pipes:
@@ -286,6 +293,10 @@ def main(genomes, config):
 
 
 def run(config_path):
+    """Executes the NEAT algo on the app.
+
+    :param config_path: Path to the NEAT config file
+    """
     config = neat.config.Config(neat.DefaultGenome, neat.DefaultReproduction,
                                 neat.DefaultSpeciesSet, neat.DefaultStagnation,
                                 config_path)
