@@ -48,7 +48,7 @@ class Bird:
 
     def jump(self):
         # in pygame negative y means up
-        self.vel = -10.5
+        self.vel = -20.5
         self.tick_count = 0
         self.height = self.y
 
@@ -56,7 +56,7 @@ class Bird:
         self.tick_count += 1
 
         # gravity
-        displacement = self.vel * self.tick_count + 1.5 * self.tick_count ** 2
+        displacement = self.vel * self.tick_count + 1.5 * 3 *  self.tick_count ** 2
 
         # terminal velocity
         if displacement >= 16:
@@ -187,8 +187,11 @@ def draw_window(win, birds, pipes, base, score, gen):
     text = STAT_FONT.render("Score: " + str(score), 1, (255, 255, 255))
     win.blit(text, (WIN_WIDTH - 10 - text.get_width(), 10))
 
-    text = STAT_FONT.render("Score: " + str(gen), 1, (255, 255, 255))
+    text = STAT_FONT.render("Generation: " + str(gen), 1, (255, 255, 255))
     win.blit(text, (10, 10))
+
+    text = STAT_FONT.render("Birds: " + str(len(birds)), 1, (255, 255, 255))
+    win.blit(text, (10, 50))
 
     base.draw(win)
 
@@ -220,7 +223,7 @@ def main(genomes, config):
 
     run = True
     while run:
-        clock.tick(60)
+        clock.tick(30)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
@@ -236,11 +239,10 @@ def main(genomes, config):
             break
 
         for x, bird in enumerate(birds):
+            # If neat activation function activates, then bird jumps
             bird.move()
             ge[x].fitness += 0.1
-
             output = nets[x].activate((bird.y, abs(bird.y - pipes[pipe_ind].height), abs(bird.y - pipes[pipe_ind].bottom)))
-
             if output[0] > 0.5:
                 bird.jump()
 
