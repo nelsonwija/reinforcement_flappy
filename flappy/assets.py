@@ -8,6 +8,7 @@ WIN_WIDTH = 500
 WIN_HEIGHT = 800
 GEN = 0
 
+# load image sprites
 BIRD_IMGS = [
     pygame.transform.scale2x(
         pygame.image.load(os.path.join('imgs', 'bird1.png'))),
@@ -24,11 +25,12 @@ BASE_IMG = pygame.transform.scale2x(
 BG_IMG = pygame.transform.scale2x(
     pygame.image.load(os.path.join('imgs', 'bg.png')))
 
+# load game fonts
 STAT_FONT = pygame.font.SysFont("comicsans", 50)
 
 
 class Bird:
-    """The Flappy Bird"""
+    """the flappy bird"""
     IMGS = BIRD_IMGS
     MAX_ROTATION = 25
     ROT_VEL = 20
@@ -101,7 +103,7 @@ class Bird:
 
 
 class Pipe:
-    """In game pipe obstacles"""
+    """in-game pipe obstacles"""
     GAP = 200
     VEL = 5
 
@@ -149,7 +151,7 @@ class Pipe:
 
 
 class Base:
-    """Represents the game floor"""
+    """represents the game floor"""
     VEL = 5
     WIDTH = BASE_IMG.get_width()
     IMG = BASE_IMG
