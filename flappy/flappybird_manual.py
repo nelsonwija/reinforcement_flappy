@@ -48,7 +48,8 @@ class Bird:
 
     def jump(self):
         # in pygame negative y means up
-        self.vel = -10.5
+        # self.vel = -10.5
+        self.vel = -20.5
         self.tick_count = 0
         self.height = self.y
 
@@ -201,28 +202,26 @@ def main():
     base = Base(730)
     pipes = [Pipe(600)]
     score = 0
-    win = pygame.display.set_mode((WIN_WIDTH, WIN_HEIGHT))
+    win = pygame.display.set_mode( (WIN_WIDTH, WIN_HEIGHT))
     clock = pygame.time.Clock()
 
     run = True
     while run:
-        clock.tick(60)
+        clock.tick(30)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
-        # TODO create manual controls for the bird if space-bar: jump
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
                     bird.jump()
-                    print('pressed key')
-
         bird.move()
 
         add_pipe = False
         rem = []
         for pipe in pipes:
             if pipe.collide(bird):
-                pass
+                pygame.quit()
+                quit()
             if pipe.x + pipe.PIPE_TOP.get_width() < 0:
                 rem.append(pipe)
             if not pipe.passed and pipe.x < bird.x:
@@ -237,9 +236,10 @@ def main():
         for r in rem:
             pipes.remove(r)
 
-        # logic if the bird hits the floor
-        if bird.y + bird.img.get_height() >= 730:  # base height
-            pass
+        # quit game if bird hits the floor
+        if bird.y + bird.img.get_height() >= 730:
+            pygame.quit()
+            break
 
         base.move()
         draw_window(win, bird, pipes=pipes, base=base, score=score)
