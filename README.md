@@ -6,7 +6,7 @@ Includes a playable version of Flappy Bird implemented in Python.
 
 ## References:
 
-Inspired by https://github.com/techwithtim
+Inspired by and credits to https://github.com/techwithtim
 
 Altered code of https://github.com/techwithtim/NEAT-Flappy-Bird
 
