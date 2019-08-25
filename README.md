@@ -1,12 +1,8 @@
 # Flappy Bird Reinforcement Learning
-
-![Flappy Bird](flappybird.gif)
-
-
-An implementation of NEAT to teach a computer to play Flappy Bird.
-
+An implementation of the NEAT algorithm to teach a computer to play Flappy Bird. 
 Includes a playable version of Flappy Bird implemented in Python.
 
+![Flappy Bird](flappybird.gif)
 
 ## References:
 
